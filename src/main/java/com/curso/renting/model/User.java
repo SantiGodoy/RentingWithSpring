@@ -1,11 +1,16 @@
 package com.curso.renting.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,19 +18,31 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "user")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(unique = true, length = 9, nullable = false)
+	
+	@NotNull
+	@Size(max = 9)
+	@Column(unique = true)
 	private String dni;
-	@Column(nullable = false)
+	
+	@NotNull
 	private String name;
-	@Column(name = "last_name", nullable = false)
+	
+	@NotNull
+	@Column(name = "last_name")
 	private String lastName;
-	@Column(nullable = false)
+	
+	@NotNull
 	private String address;
-	@Column(nullable = false)
+	
+	@NotNull
 	private String location;
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	private List<Car> cars;
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	private List<Rent> rents;
 }

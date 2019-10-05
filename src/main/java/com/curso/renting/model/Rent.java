@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,15 +23,24 @@ public class Rent {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
+	
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Car car;
+	
+	@NotNull
 	@Column(name = "initial_date")
 	private LocalDate initDate;
+	
+	@NotNull
 	@Column(name = "final_date")
 	private LocalDate finalDate;
-	@Column(precision = 2, nullable = false)
+	
+	@NotNull
 	private Double price;
 }
 
