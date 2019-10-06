@@ -2,6 +2,8 @@ package com.curso.renting.dto;
 
 import javax.validation.constraints.NotNull;
 
+import com.curso.renting.model.User;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,4 +17,6 @@ public class CarDto {
 	private String model;
 	@NotNull(message = "La marca no puede ser nula")
 	private String brand;
+	@NotNull(message = "Tiene que tener un dueño")
+	private User user;
 }

@@ -12,12 +12,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Car {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,10 +42,12 @@ public class Car {
 	@Column(unique = true)
 	private String brand;
 	
+	@JsonBackReference
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
 	private List<Rent> rents;
 	
 	@NotNull
+	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 }

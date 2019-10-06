@@ -12,12 +12,18 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +47,10 @@ public class User {
 	@NotNull
 	private String location;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<Car> cars;
+	@JsonBackReference
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<Rent> rents;
 }

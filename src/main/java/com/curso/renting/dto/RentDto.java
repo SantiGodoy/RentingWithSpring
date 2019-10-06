@@ -2,6 +2,9 @@ package com.curso.renting.dto;
 
 import javax.validation.constraints.NotNull;
 
+import com.curso.renting.model.Car;
+import com.curso.renting.model.User;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,8 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RentDto {
 	private Integer id;
-	private Integer initDate;
-	private Integer finalDate;
+	private Long initDate;
+	private Long finalDate;
 	@NotNull(message = "El precio no puede ser nulo")
 	private Double price;
+	private User user;
+	private Car car;
 }
