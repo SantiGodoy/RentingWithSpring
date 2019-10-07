@@ -1,4 +1,4 @@
-package com.curso.renting.mapper;
+package com.curso.renting.service.mapper;
 
 public interface MapperService <T, R> {
 	/**

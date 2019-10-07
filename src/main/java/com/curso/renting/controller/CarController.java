@@ -1,6 +1,5 @@
 package com.curso.renting.controller;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -22,16 +21,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.curso.renting.dto.CarDto;
 import com.curso.renting.dto.RentDto;
-import com.curso.renting.dto.ResultRent;
+import com.curso.renting.dto.ResultRentDto;
 import com.curso.renting.exception.NotFoundException;
 import com.curso.renting.exception.ValidationException;
-import com.curso.renting.mapper.MapperService;
 import com.curso.renting.model.Car;
 import com.curso.renting.model.Rent;
 import com.curso.renting.model.User;
 import com.curso.renting.service.CarService;
 import com.curso.renting.service.RentService;
 import com.curso.renting.service.UserService;
+import com.curso.renting.service.mapper.MapperService;
 
 @RestController
 @RequestMapping("/car")
@@ -44,8 +43,8 @@ public class CarController {
 	@Autowired private RentService rentService;
 	
 	@GetMapping
-	public Page<CarDto> getAll(@RequestParam(value="page", defaultValue = "0", required = true) Integer page,
-			@RequestParam(value="size", defaultValue = "10", required = true) Integer size) {
+	public Page<CarDto> getAll(@RequestParam(value="page", defaultValue = "0", required = false) Integer page,
+			@RequestParam(value="size", defaultValue = "10", required = false) Integer size) {
 			Pageable pageRequest = PageRequest.of(page, size);
 			return carService.findAll(pageRequest).map(carEntityToDtoMapper::map); 		
 	}
@@ -55,6 +54,16 @@ public class CarController {
 		return carService.findById(id)
 				.map(carEntityToDtoMapper::map)
 				.orElseThrow(() -> new NotFoundException(String.format("Cannot be found car with id:%s", id)));
+	}
+	
+	@GetMapping("/user/{idUser}")
+	public Page<CarDto> getUserCars(@PathVariable("idUser") Integer idUser,@RequestParam(value="page", 
+		defaultValue = "0", required = false) Integer page, @RequestParam(value="size", 
+		defaultValue = "10", required = false) Integer size) throws NotFoundException {
+		Pageable pageRequest = PageRequest.of(page, size); 
+		
+		return carService.findByUserId(idUser, pageRequest)
+				.map(carEntityToDtoMapper::map);
 	}
 	
 	
@@ -108,7 +117,7 @@ public class CarController {
 	}
 	
 	@GetMapping("/{id}/{initDate}/{finalDate}")
-	public ResultRent carProfit(@PathVariable("id") Integer id, @PathVariable("initDate") Long initTimestamp,
+	public ResultRentDto carProfit(@PathVariable("id") Integer id, @PathVariable("initDate") Long initTimestamp,
 			@PathVariable("finalDate") Long finalTimestamp) throws NotFoundException, ValidationException {
 		
 		if(finalTimestamp < initTimestamp) throw new ValidationException();
@@ -116,18 +125,6 @@ public class CarController {
 		Car carFound = carService.findById(id)
 				.orElseThrow(() -> new NotFoundException(
 						String.format("Cannot be found car with id:%s", id)));
-		
-		LocalDateTime initDate =
-			    LocalDateTime.ofInstant(Instant.ofEpochSecond(initTimestamp), ZoneId.systemDefault());
-		LocalDateTime finalDate =
-			    LocalDateTime.ofInstant(Instant.ofEpochSecond(finalTimestamp), ZoneId.systemDefault());
-		
-		Double carProfit = 0.0;
-		
-		for(Rent rent : carFound.getRents())
-			carProfit += (initDate.isBefore(rent.getInitDate())) 
-					? rent.getPrice() : 0;
-					
-		return new ResultRent(carFound.getBrand(), carFound.getModel(), initDate, finalDate, carProfit);
+		return carService.carProfit(carFound, initTimestamp, finalTimestamp);
 	}
 }

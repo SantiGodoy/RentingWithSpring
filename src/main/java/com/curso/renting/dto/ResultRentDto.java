@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResultRent {
+public class ResultRentDto {
 	private String brand;
 	private String model;
 	private LocalDateTime initDate;

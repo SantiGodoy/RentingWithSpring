@@ -1,4 +1,4 @@
-package com.curso.renting.mapper;
+package com.curso.renting.service.mapper;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

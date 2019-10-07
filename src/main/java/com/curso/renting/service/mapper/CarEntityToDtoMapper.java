@@ -1,4 +1,4 @@
-package com.curso.renting.mapper;
+package com.curso.renting.service.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

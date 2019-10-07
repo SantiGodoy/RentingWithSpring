@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.curso.renting.dto.ResultRentDto;
 import com.curso.renting.model.Car;
 
 public interface CarService {
@@ -33,8 +34,25 @@ public interface CarService {
 	Optional<Car> findById(Integer id);
 	
 	/**
+	 * Finds cars by his owner id
+	 * @param idUser Car owner
+	 * @param page Page specifications
+	 * @return Page with the cars owned by the user
+	 */
+	Page<Car> findByUserId(Integer idUser, Pageable page);
+	
+	/**
 	 * Deletes a car from the database
 	 * @param car Car to delete
 	 */
 	void delete(Car car);
+	
+	/**
+	 * Calculates the profit given by a single car between two dates
+	 * @param car Car found by his id
+	 * @param initTimestamp Initial date as timestamp
+	 * @param finalTimestamp Final date as timestamp
+	 * @return ResultRentDto with the car title and his profit
+	 */
+	ResultRentDto carProfit(Car car, Long initTimestamp, Long finalTimestamp);
 }

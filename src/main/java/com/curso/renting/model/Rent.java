@@ -2,6 +2,7 @@ package com.curso.renting.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,12 +33,12 @@ public class Rent {
 	
 	@NotNull
 	@JsonManagedReference
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private User user;
 	
 	@NotNull
 	@JsonManagedReference
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private Car car;
 	
 	@NotNull
@@ -51,6 +52,3 @@ public class Rent {
 	@NotNull
 	private Double price;
 }
-
-//LocalDate.from(new Date().toInstance())
-//LocalDate.ofEpochDay(new Date().toInstance().getEpochSecond())

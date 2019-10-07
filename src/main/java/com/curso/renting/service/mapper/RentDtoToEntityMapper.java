@@ -1,4 +1,4 @@
-package com.curso.renting.mapper;
+package com.curso.renting.service.mapper;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

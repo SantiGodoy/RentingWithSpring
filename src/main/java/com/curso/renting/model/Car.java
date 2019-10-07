@@ -2,6 +2,7 @@ package com.curso.renting.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -44,10 +45,10 @@ public class Car {
 	private Boolean availability;
 	
 	@JsonBackReference
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
+	@OneToMany(mappedBy = "car")
 	private List<Rent> rents;
 	
 	@JsonManagedReference
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private User user;
 }

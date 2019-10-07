@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.curso.renting.dto.RentDto;
 import com.curso.renting.exception.NotFoundException;
-import com.curso.renting.mapper.MapperService;
 import com.curso.renting.model.Rent;
 import com.curso.renting.service.RentService;
+import com.curso.renting.service.mapper.MapperService;
 
 @RestController
 @RequestMapping("/rent")
