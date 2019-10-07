@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.curso.renting.dto.ResultRentDto;
+import com.curso.renting.exception.NotFoundException;
+import com.curso.renting.exception.ValidationException;
 import com.curso.renting.model.Car;
 import com.curso.renting.model.Rent;
 import com.curso.renting.repository.CarRepository;
@@ -47,8 +49,12 @@ public class CarServiceImpl implements CarService {
 	}
 
 	@Override
-	public ResultRentDto carProfit(Car car, Long initTimestamp, Long finalTimestamp) {
+	public ResultRentDto carProfit(Integer id, Long initTimestamp, Long finalTimestamp) throws NotFoundException, ValidationException {
+		if(finalTimestamp < initTimestamp) throw new ValidationException();
 		
+		Car carFound = carRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException(
+						String.format("Cannot be found car with id:%s", id)));
 		LocalDateTime initDate =
 			    LocalDateTime.ofInstant(Instant.ofEpochSecond(initTimestamp), ZoneId.systemDefault());
 		LocalDateTime finalDate =
@@ -56,10 +62,10 @@ public class CarServiceImpl implements CarService {
 		
 		Double carProfit = 0.0;
 		
-		for(Rent rent : car.getRents())
-			carProfit += (initDate.isBefore(rent.getInitDate())) 
+		for(Rent rent : carFound.getRents())
+			carProfit += (initDate.isBefore(rent.getInitDate()) && finalDate.isAfter(initDate)) 
 					? rent.getPrice() : 0;
 					
-		return new ResultRentDto(car.getBrand(), car.getModel(), initDate, finalDate, carProfit);
+		return new ResultRentDto(carFound.getBrand() + " " + carFound.getModel(), initDate, finalDate, carProfit);
 	}
 }

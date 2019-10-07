@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.curso.renting.dto.ResultRentDto;
+import com.curso.renting.exception.NotFoundException;
+import com.curso.renting.exception.ValidationException;
 import com.curso.renting.model.Car;
 
 public interface CarService {
@@ -49,10 +51,12 @@ public interface CarService {
 	
 	/**
 	 * Calculates the profit given by a single car between two dates
-	 * @param car Car found by his id
+	 * @param id Car identifier
 	 * @param initTimestamp Initial date as timestamp
 	 * @param finalTimestamp Final date as timestamp
 	 * @return ResultRentDto with the car title and his profit
+	 * @throws NotFoundException If the car does not exists
+	 * @throws ValidationException If the initial date is greater than the final date
 	 */
-	ResultRentDto carProfit(Car car, Long initTimestamp, Long finalTimestamp);
+	ResultRentDto carProfit(Integer id, Long initTimestamp, Long finalTimestamp) throws NotFoundException, ValidationException;
 }
