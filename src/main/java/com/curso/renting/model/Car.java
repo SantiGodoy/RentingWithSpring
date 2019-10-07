@@ -35,18 +35,18 @@ public class Car {
 	private String numberPlate;
 	
 	@NotNull
-	@Column(unique = true)
 	private String model;
 	
 	@NotNull
-	@Column(unique = true)
 	private String brand;
+	
+	@NotNull
+	private Boolean availability;
 	
 	@JsonBackReference
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
 	private List<Rent> rents;
 	
-	@NotNull
 	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;

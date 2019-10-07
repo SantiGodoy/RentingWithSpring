@@ -8,15 +8,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UserDto {
-	private Integer id;
-	@NotNull(message = "El dni no puede ser nulo")
+	@NotNull(message = "DNI cannot be null")
 	private String dni;
-	@NotNull(message = "El nombre no puede ser nulo")
+	@NotNull(message = "Name cannot be null")
 	private String name;
-	@NotNull(message = "El apellido no puede ser nulo")
+	@NotNull(message = "Last name cannot be null")
 	private String lastName;
-	@NotNull(message = "La dirección no puede ser nula")
+	@NotNull(message = "Address cannot be null")
 	private String address;
-	@NotNull(message = "La localidad no puede ser nula")
+	@NotNull(message = "Location cannot be null")
 	private String location;
 }

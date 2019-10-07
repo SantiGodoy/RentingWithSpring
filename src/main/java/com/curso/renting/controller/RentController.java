@@ -49,8 +49,8 @@ public class RentController {
 	}
 	
 	@PostMapping
-	public Rent create(@RequestBody @Valid RentDto rentDto){
-		return rentService.save(rentDtoToEntityMapper.map(rentDto));
+	public RentDto create(@RequestBody @Valid RentDto rentDto){
+		return rentEntityToDtoMapper.map(rentService.save(rentDtoToEntityMapper.map(rentDto)));
 	}
 	
 	@PutMapping("/{id}")

@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.curso.renting.exception.NotFoundException;
 import com.curso.renting.model.User;
 
 public interface UserService {
@@ -37,4 +38,12 @@ public interface UserService {
 	 * @param user User to delete
 	 */
 	void delete(User user);
+	
+	/**
+	 * Assigns the given user as the owner of the car
+	 * @param user New car owner
+	 * @param idCar Identifier to find the car
+	 * @throws NotFoundException If the car does not exist
+	 */
+	void userToCar(User user, Integer idCar) throws NotFoundException;
 }
